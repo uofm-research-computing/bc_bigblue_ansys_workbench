@@ -82,6 +82,8 @@ requested module in `$ANSYS_MODULE`.
 
 ### GPU_OFF
 
+*Optional*
+
 If this environment variables is set, then it will *attempt* to run the various
 ANSYS workbench packages in software rendering mode. Not all packages currently
 support this, so bugs may arise for the user as they use the workbench.
