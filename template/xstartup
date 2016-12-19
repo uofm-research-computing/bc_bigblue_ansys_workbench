@@ -1,0 +1,73 @@
+#!/bin/bash -l
+
+# Launch FVWM
+FVWM_ASSETS_ROOT="${ROOT}/bc_fvwm_assets/template"
+FVWM_ROOT="${FVWM_ASSETS_ROOT}" "${FVWM_ASSETS_ROOT}/fvwm_wrapper" -f "${ROOT}/fvwm/fvwmrc" &
+
+# Load the ANSYS module
+module load ${ANSYS_MODULE}
+
+# Another ANSYS job with the same job name (file) is already running in this
+# directory or the file.lock file has not been deleted from an abnormally
+# terminated ANSYS run.  To disable this check, set the ANSYS_LOCK environment
+# variable to OFF.
+export ANSYS_LOCK="OFF"
+
+#
+# CFX Related Options
+#
+
+# Disable hardware rendering mode
+[[ ${GPU_OFF} ]] && export CUE_GRAPHICS="mesa"
+
+# Fix bug when running Intel MPI code on OSC
+export I_MPI_PMI_EXTENSIONS=on
+
+# Add custom "OSC MPI" as a start method
+export CFX5_START_METHODS_CCL="${ROOT}/cfx_assets/start-methods.ccl"
+
+# Make a hosts file that CFX will use in Parallel Distributed
+mkdir -p ${HOME}/.cfx
+export CFX5_HOSTS_CCL="${HOME}/.cfx/hostinfo.${PBS_JOBID}"
+NODES=$(tr '\n' ',' < ${PBS_NODEFILE} | sed 's/,$//g')
+touch ${CFX5_HOSTS_CCL}
+cfx5parhosts -add ${NODES} -user -file "${CFX5_HOSTS_CCL}"
+
+# Only give OSC MPI option to user through GUI
+HOSTINFO=$(head -n -2 ${CFX5_HOSTS_CCL})
+cat > "${CFX5_HOSTS_CCL}" << EOL
+${HOSTINFO}
+    SOLVER STEP CONTROL:
+      Runtime Priority = Standard
+      MEMORY CONTROL:
+        Memory Allocation Factor = 1.0
+      END
+      PARALLEL ENVIRONMENT:
+        Parallel Host List = ${NODES}
+        Start Method = OSC MPI Distributed Parallel
+      END
+    END
+  END # EXECUTION CONTROL
+END # SIMULATION CONTROL
+EOL
+
+#
+# Fluent Related Options
+#
+
+# Fluent fix so that is uses pbsrsh set in MPI_REMSH by module load
+export HPMPI_MPIRUN_FLAGS="-e MPI_REMSH=$MPI_REMSH"
+
+#
+# Start ANSYS Workbench
+#
+
+if [[ ${GPU_OFF} ]]; then
+  runwb2
+else
+  module load virtualgl
+  vglrun runwb2
+fi
+
+# Kill vncserver when user closes GUI
+vncserver -kill ${DISPLAY}

@@ -1,0 +1,10 @@
+Read $[FVWM_ROOT]/fvwm/decorations
+Read $[FVWM_ROOT]/fvwm/globalfeel
+Read $[FVWM_ROOT]/fvwm/startup
+Read $[FVWM_ROOT]/fvwm/functions
+Read $[FVWM_ROOT]/fvwm/bindings
+Read $[FVWM_ROOT]/fvwm/menus
+Read $[FVWM_ROOT]/fvwm/modules
+
+AddToMenu StartMenu
++ "&Fluent Parallel Information" Module FvwmScript $[ROOT]/fvwm/fluent_dialog
