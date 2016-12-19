@@ -26,8 +26,7 @@ compute:
   - name: 'ANSYS Workbench 15.0.7 (Hardware Rendering)'
     batch: 'oakley'
     node:
-      - &oak_vis
-        type: 'vis'
+      - type: 'vis'
         ppn: 12
         desc: >
           This node may come with 1 to 2 Nvidia GPUs. Allows for 3D
