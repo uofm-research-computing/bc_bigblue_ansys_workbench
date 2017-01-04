@@ -1,5 +1,8 @@
 # Batch Connect - OSC ANSYS Workbench
 
+![GitHub Release](https://img.shields.io/github/release/osc/bc_osc_ansys_workbench.svg)
+![GitHub License](https://img.shields.io/github/license/osc/bc_osc_ansys_workbench.svg)
+
 A VNCSim app designed for OSC OnDemand that launches ANSYS Workbench within an
 Oakley batch job. It runs in a heavily customized desktop/environment so that
 it works in OSC's supercomputer environment.
