@@ -59,7 +59,7 @@ EOL
 export HPMPI_MPIRUN_FLAGS="-e MPI_REMSH=$MPI_REMSH"
 
 # Set working directory to home directory
-cd ${HOME}
+cd "${HOME}"
 
 #
 # Start ANSYS Workbench
