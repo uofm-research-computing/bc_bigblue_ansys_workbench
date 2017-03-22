@@ -1,5 +1,8 @@
 #!/bin/bash -l
 
+# Set working directory to home directory
+cd "${HOME}"
+
 # Launch FVWM
 FVWM_ASSETS_ROOT="${ROOT}/bc_fvwm_assets/template"
 FVWM_ROOT="${FVWM_ASSETS_ROOT}" "${FVWM_ASSETS_ROOT}/fvwm_wrapper" -f "${ROOT}/fvwm/fvwmrc" &
@@ -57,9 +60,6 @@ EOL
 
 # Fluent fix so that is uses pbsrsh set in MPI_REMSH by module load
 export HPMPI_MPIRUN_FLAGS="-e MPI_REMSH=$MPI_REMSH"
-
-# Set working directory to home directory
-cd "${HOME}"
 
 #
 # Start ANSYS Workbench
