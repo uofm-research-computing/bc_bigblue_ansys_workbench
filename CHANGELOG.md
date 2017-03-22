@@ -1,5 +1,10 @@
 ## Unreleased
 
+Bugfixes:
+
+  - set working directory to `$HOME` for FVWM as well
+  - add quotes around paths
+
 ## 0.0.2 (2017-03-22)
 
 Bugfixes:

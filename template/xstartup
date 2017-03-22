@@ -30,14 +30,14 @@ export I_MPI_PMI_EXTENSIONS=on
 export CFX5_START_METHODS_CCL="${ROOT}/cfx_assets/start-methods.ccl"
 
 # Make a hosts file that CFX will use in Parallel Distributed
-mkdir -p ${HOME}/.cfx
+mkdir -p "${HOME}/.cfx"
 export CFX5_HOSTS_CCL="${HOME}/.cfx/hostinfo.${PBS_JOBID}"
-NODES=$(tr '\n' ',' < ${PBS_NODEFILE} | sed 's/,$//g')
-touch ${CFX5_HOSTS_CCL}
-cfx5parhosts -add ${NODES} -user -file "${CFX5_HOSTS_CCL}"
+NODES=$(tr '\n' ',' < "${PBS_NODEFILE}" | sed 's/,$//g')
+touch "${CFX5_HOSTS_CCL}"
+cfx5parhosts -add "${NODES}" -user -file "${CFX5_HOSTS_CCL}"
 
 # Only give OSC MPI option to user through GUI
-HOSTINFO=$(head -n -2 ${CFX5_HOSTS_CCL})
+HOSTINFO=$(head -n -2 "${CFX5_HOSTS_CCL}")
 cat > "${CFX5_HOSTS_CCL}" << EOL
 ${HOSTINFO}
     SOLVER STEP CONTROL:
