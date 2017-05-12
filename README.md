@@ -13,6 +13,8 @@ This app requires the following software be installed on the nodes that the
 batch job is intended to run on:
 
 - [ANSYS Workbench](http://www.ansys.com/products/platform) 15.0.7+
+  - [CFX](http://www.ansys.com/Products/Fluids/ANSYS-CFX)
+  - [Fluent](http://www.ansys.com/Products/Fluids/ANSYS-FLUENT)
 - [Lmod](https://www.tacc.utexas.edu/research-development/tacc-projects/lmod) 6.0.1+
 - [Fluxbox](http://fluxbox.org/) 1.1.1+
 
