@@ -1,0 +1,8 @@
+[begin] (OnDemand)
+  [encoding] {UTF-8}
+    [exec] (xterm) {xterm -fa 'Monospace' -fs 10}
+    [exec] (top) {xterm -fa 'Monospace' -fs 10 -e top}
+    [separator]
+    [exec] (Fluent Parallel Info) {$FLUXBOX_ASSETS_ROOT/fluent_info | xmessage -file - -center}
+  [endencoding]
+[end]

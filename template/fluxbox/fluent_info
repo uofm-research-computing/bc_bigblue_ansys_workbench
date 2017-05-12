@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cat << EOT
+Number of processors:
+$(cat $PBS_NODEFILE | wc -l)
+
+File containing machine names:
+$(echo $PBS_NODEFILE)
+
+Interconnect:
+Infiniband
+EOT
