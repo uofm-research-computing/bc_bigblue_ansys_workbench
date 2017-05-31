@@ -1,17 +1,20 @@
 #!/bin/bash -l
 
+# Get current working directory
+export OUTPUT_ROOT="${PWD}"
+
+# Get source directory of this script
+export STAGED_ROOT="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # Set working directory to home directory
 cd "${HOME}"
-
-# Restore the module environment to avoid conflicts
-module restore
 
 #
 # Launch Fluxbox
 #
 
-FLUXBOX_RC_FILE="${PBS_O_WORKDIR}/${PBS_JOBID}.rc"
-FLUXBOX_ASSETS_ROOT="${ROOT}/fluxbox"
+FLUXBOX_RC_FILE="${OUTPUT_ROOT}/fluxbox.rc"
+FLUXBOX_ASSETS_ROOT="${STAGED_ROOT}/fluxbox"
 
 # Build Fluxbox init file
 cat > "${FLUXBOX_RC_FILE}" << EOT
@@ -26,12 +29,22 @@ EOT
 # Export the module function for the terminal
 [[ $(type -t module) == "function" ]] && export -f module
 
-# Start the Fluxbox window manager
-FLUXBOX_ASSETS_ROOT="${FLUXBOX_ASSETS_ROOT}" fluxbox -display "${DISPLAY}.0" -rc "${FLUXBOX_RC_FILE}" &
+# Start the Fluxbox window manager (it likes to crash on occassion, make it
+# persistent)
+(
+  export FLUXBOX_ASSETS_ROOT="${FLUXBOX_ASSETS_ROOT}"
+  until fluxbox -display "${DISPLAY}.0" -rc "${FLUXBOX_RC_FILE}"; do
+    echo "Fluxbox crashed with exit code $?. Respawning..." >&2
+    sleep 1
+  done
+) &
 
 #
 # Start ANSYS Workbench
 #
+
+# Restore the module environment to avoid conflicts
+module restore
 
 # Load the ANSYS module
 module load ${ANSYS_MODULE}
@@ -47,13 +60,13 @@ export ANSYS_LOCK="OFF"
 #
 
 # Disable hardware rendering mode
-[[ ${GPU_OFF} ]] && export CUE_GRAPHICS="mesa"
+[[ ${ENABLE_VIS} ]] || export CUE_GRAPHICS="mesa"
 
 # Fix bug when running Intel MPI code on OSC
 export I_MPI_PMI_EXTENSIONS=on
 
 # Add custom "OSC MPI" as a start method
-export CFX5_START_METHODS_CCL="${ROOT}/cfx_assets/start-methods.ccl"
+export CFX5_START_METHODS_CCL="${STAGED_ROOT}/cfx_assets/start-methods.ccl"
 
 # Make a hosts file that CFX will use in Parallel Distributed
 mkdir -p "${HOME}/.cfx"
@@ -88,12 +101,9 @@ EOL
 export HPMPI_MPIRUN_FLAGS="-e MPI_REMSH=$MPI_REMSH"
 
 # Launch ANSYS Workbench
-if [[ ${GPU_OFF} ]]; then
-  runwb2
-else
+if [[ ${ENABLE_VIS} ]]; then
   module load virtualgl
   vglrun runwb2
+else
+  runwb2
 fi
-
-# Kill vncserver when user closes GUI
-vncserver -kill ${DISPLAY}
