@@ -1,5 +1,9 @@
 ## Unreleased
 
+Change:
+
+  - Update to Ansys 18.1 (OSC Oakley)
+
 ## 0.1.0 (2017-06-14)
 
 Features:
