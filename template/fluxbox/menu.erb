@@ -3,6 +3,6 @@
     [exec] (xterm) {xterm -fa 'Monospace' -fs 10}
     [exec] (top) {xterm -fa 'Monospace' -fs 10 -e top}
     [separator]
-    [exec] (Fluent Parallel Info) {$FLUXBOX_ASSETS_ROOT/fluent_info | xmessage -file - -center}
+    [exec] (Fluent Parallel Info) {<%= session.staged_root.join("bin", "fluent_info") %> | xmessage -file - -center}
   [endencoding]
 [end]
