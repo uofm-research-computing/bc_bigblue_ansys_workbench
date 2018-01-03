@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Modified the `CHANGELOG.md` formatting.
 - Refactored to use new Dashboard ERB templating.
   [#3](https://github.com/OSC/bc_osc_ansys_workbench/issues/3)
+- Updated date in `LICENSE.txt`.
 
 ## [0.1.0] - 2017-06-14
 ### Changed
