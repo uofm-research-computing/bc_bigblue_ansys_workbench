@@ -1,10 +1,6 @@
 #!/bin/bash -l
 
-# Get current working directory
-export OUTPUT_ROOT="${PWD}"
-
-# Get source directory of this script
-export STAGED_ROOT="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+<%- gpu = context.node_type.include?("vis") -%>
 
 # Set working directory to home directory
 cd "${HOME}"
@@ -13,33 +9,19 @@ cd "${HOME}"
 # Launch Fluxbox
 #
 
-FLUXBOX_RC_FILE="${OUTPUT_ROOT}/fluxbox.rc"
-FLUXBOX_ASSETS_ROOT="${STAGED_ROOT}/fluxbox"
-
 # Create Fluxbox root or it will override the below init file
 (
   umask 077
   mkdir -p "${HOME}/.fluxbox"
 )
 
-# Build Fluxbox init file
-cat > "${FLUXBOX_RC_FILE}" << EOT
-session.configVersion: 13
-session.screen0.toolbar.widthPercent: 60
-session.screen0.toolbar.tools: prevworkspace, workspacename, nextworkspace, iconbar, systemtray, prevwindow, nextwindow, clock
-session.menuFile: $FLUXBOX_ASSETS_ROOT/menu
-session.keyFile: $FLUXBOX_ASSETS_ROOT/keys
-session.styleOverlay: $FLUXBOX_ASSETS_ROOT/overlay
-EOT
-
 # Export the module function for the terminal
 [[ $(type -t module) == "function" ]] && export -f module
 
-# Start the Fluxbox window manager (it likes to crash on occassion, make it
+# Start the Fluxbox window manager (it likes to crash on occasion, make it
 # persistent)
 (
-  export FLUXBOX_ASSETS_ROOT="${FLUXBOX_ASSETS_ROOT}"
-  until fluxbox -display "${DISPLAY}.0" -rc "${FLUXBOX_RC_FILE}"; do
+  until fluxbox -display "${DISPLAY}.0" -rc "<%= session.staged_root.join("fluxbox.rc") %>"; do
     echo "Fluxbox crashed with exit code $?. Respawning..." >&2
     sleep 1
   done
@@ -49,11 +31,9 @@ EOT
 # Start ANSYS Workbench
 #
 
-# Restore the module environment to avoid conflicts
-module restore
-
-# Load the ANSYS module
-module load ${ANSYS_MODULE}
+# Load the required environment
+module purge
+module load <%= context.version %> <%= "virtualgl" if gpu %>
 
 # Another ANSYS job with the same job name (file) is already running in this
 # directory or the file.lock file has not been deleted from an abnormally
@@ -65,14 +45,16 @@ export ANSYS_LOCK="OFF"
 # CFX Related Options
 #
 
+<%- unless gpu -%>
 # Disable hardware rendering mode
-[[ ${ENABLE_VIS} ]] || export CUE_GRAPHICS="mesa"
+export CUE_GRAPHICS="mesa"
+<%- end -%>
 
 # Fix bug when running Intel MPI code on OSC
 export I_MPI_PMI_EXTENSIONS=on
 
 # Add custom "OSC MPI" as a start method
-export CFX5_START_METHODS_CCL="${STAGED_ROOT}/cfx_assets/start-methods.ccl"
+export CFX5_START_METHODS_CCL="<%= session.staged_root.join("cfx_assets", "start-methods.ccl") %>"
 
 # Make a hosts file that CFX will use in Parallel Distributed
 mkdir -p "${HOME}/.cfx"
@@ -107,9 +89,4 @@ EOL
 export HPMPI_MPIRUN_FLAGS="-e MPI_REMSH=$MPI_REMSH"
 
 # Launch ANSYS Workbench
-if [[ ${ENABLE_VIS} ]]; then
-  module load virtualgl
-  vglrun runwb2
-else
-  runwb2
-fi
+<%= "vglrun " if gpu %>runwb2
