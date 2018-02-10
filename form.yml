@@ -36,5 +36,5 @@ attributes:
     label: "ANSYS Workbench version"
     help: "This defines the version of ANSYS you want to load."
     options:
-      - [ "15.0.7", "ansys/15.0.7" ]
       - [ "18.1",   "ansys/18.1"   ]
+      - [ "15.0.7", "ansys/15.0.7" ]
