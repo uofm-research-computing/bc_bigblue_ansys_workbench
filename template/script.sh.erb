@@ -1,6 +1,9 @@
-#!/bin/bash -l
+#!/usr/bin/env bash
 
 <%- gpu = context.node_type.include?("vis") -%>
+
+# Clean the environment
+module purge
 
 # Set working directory to home directory
 cd "${HOME}"
@@ -14,9 +17,6 @@ cd "${HOME}"
   umask 077
   mkdir -p "${HOME}/.fluxbox"
 )
-
-# Export the module function for the terminal
-[[ $(type -t module) == "function" ]] && export -f module
 
 # Start the Fluxbox window manager (it likes to crash on occasion, make it
 # persistent)
@@ -32,8 +32,7 @@ cd "${HOME}"
 #
 
 # Load the required environment
-module purge
-module load <%= context.version %> <%= "virtualgl" if gpu %>
+module load <%= context.version %>
 
 # Another ANSYS job with the same job name (file) is already running in this
 # directory or the file.lock file has not been deleted from an abnormally
@@ -82,11 +81,16 @@ END # SIMULATION CONTROL
 EOL
 
 #
-# Fluent Related Options
+# RSH & SSH wrappers
 #
 
-# Fluent fix so that is uses pbsrsh set in MPI_REMSH by module load
-export HPMPI_MPIRUN_FLAGS="-e MPI_REMSH=$MPI_REMSH"
+# Add RSH and SSH wrappers for Fluent and CFX
+export PATH="<%= session.staged_root.join("bin") %>:${PATH}"
 
 # Launch ANSYS Workbench
-<%= "vglrun " if gpu %>runwb2
+<%- if gpu -%>
+module load vglrun
+vglrun runwb2
+<%- else -%>
+runwb2
+<%- end -%>
