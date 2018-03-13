@@ -89,8 +89,10 @@ export PATH="<%= session.staged_root.join("bin") %>:${PATH}"
 
 # Launch ANSYS Workbench
 <%- if gpu -%>
-module load vglrun
+module load intel/16.0.3 virtualgl
+module list
 vglrun runwb2
 <%- else -%>
+module list
 runwb2
 <%- end -%>
