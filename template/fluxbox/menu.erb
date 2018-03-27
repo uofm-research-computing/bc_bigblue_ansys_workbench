@@ -1,8 +1,0 @@
-[begin] (OnDemand)
-  [encoding] {UTF-8}
-    [exec] (xterm) {xterm -fa 'Monospace' -fs 10 -ls}
-    [exec] (top) {xterm -fa 'Monospace' -fs 10 -e top}
-    [separator]
-    [exec] (Fluent Parallel Info) {<%= session.staged_root.join("bin", "fluent_info") %> | xmessage -file - -center}
-  [endencoding]
-[end]

@@ -16,7 +16,7 @@ OnDemand node):
 - [ANSYS Workbench] 15.0.7+
   - [CFX]
   - [Fluent]
-- [Fluxbox] 1.1.1+
+- [Xfce Desktop] 4+
 
 For VNC server support:
 
@@ -36,7 +36,7 @@ For hardware rendering support:
 [ANSYS Workbench]: https://www.ansys.com/
 [CFX]: https://www.ansys.com/Products/Fluids/ANSYS-CFX
 [Fluent]: https://www.ansys.com/Products/Fluids/ANSYS-FLUENT
-[Fluxbox]: http://fluxbox.org/
+[Xfce Desktop]: https://xfce.org/
 [TurboVNC]: http://www.turbovnc.org/
 [websockify]: https://github.com/novnc/websockify
 [X server]: https://www.x.org/
