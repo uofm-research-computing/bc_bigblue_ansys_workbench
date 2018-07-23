@@ -1,5 +1,11 @@
 <%-
   num_nodes = bc_num_slots.blank? ? 1 : bc_num_slots.to_i
+  num_cpus_per_node = 28
+  num_cpus_ansys_wont_use = 4
+  num_cpus_for_free = 4
+  number_cpus_available = (num_nodes * num_cpus_per_node) - num_cpus_ansys_wont_use
+  ansys_par_request = (run_in_parallel_mode.to_i == 1) ? "\%ansyspar+#{number_cpus_available}" : ""
+  software_request = "ansys+1" + ansys_par_request
 -%>
 ---
 batch_connect:
@@ -8,4 +14,4 @@ script:
   native:
     resources:
       nodes: "<%= num_nodes %><%= node_type %>"
-      software: "ansys+1"
+      software: "<%= software_request %>"
