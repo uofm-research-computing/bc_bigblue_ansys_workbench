@@ -5,6 +5,7 @@ form:
   - bc_account
   - bc_num_hours
   - bc_num_slots
+  - reserve_parallel_licenses
   - node_type
   - bc_vnc_resolution
   - bc_email_on_started
@@ -17,6 +18,13 @@ attributes:
   bc_account:
     label: "Project"
     help: "You can leave this blank if **not** in multiple projects."
+  reserve_parallel_licenses:
+    widget: check_box
+    checked_value: 1
+    unchecked_value: 0
+    label: "Reserve ANSYS Parallel Licenses"
+    help: |
+      - Ensure that enough parallel licenses are available for the number of nodes selected before starting the session.
   node_type:
     widget: select
     label: "Node type"
