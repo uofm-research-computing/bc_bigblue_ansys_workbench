@@ -5,7 +5,7 @@ form:
   - bc_account
   - bc_num_hours
   - bc_num_slots
-  - run_in_parallel_mode
+  - reserve_parallel_licenses
   - node_type
   - bc_vnc_resolution
   - bc_email_on_started
@@ -18,14 +18,13 @@ attributes:
   bc_account:
     label: "Project"
     help: "You can leave this blank if **not** in multiple projects."
-  run_in_parallel_mode:
+  reserve_parallel_licenses:
     widget: check_box
     checked_value: 1
     unchecked_value: 0
-    label: "Use ANSYS Parallel Mode"
+    label: "Reserve ANSYS Parallel Licenses"
     help: |
-      - ANSYS will give you up to 4 CPUs for free
-      - This will set `%ansyspar+n_cpus` where `n_cpus` is 4 less than the total number of CPUs available for all selected nodes.
+      - Ensure that enough parallel licenses are available for the number of nodes selected before starting the session.
   node_type:
     widget: select
     label: "Node type"
