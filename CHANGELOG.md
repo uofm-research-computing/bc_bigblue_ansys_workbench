@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.0] - 2018-07-26
+### Changed
+- Fixed bug where ANSYS parallel licenses were not properly reserved at submission time.
+    [#15](https://github.com/OSC/bc_osc_ansys_workbench/issues/15)
+
 ## [0.5.0] - 2018-03-27
 ### Changed
 - Switched from using Fluxbox to Xfce for the window manager.
@@ -69,7 +74,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release!
 
-[Unreleased]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.2.0...v0.3.0
