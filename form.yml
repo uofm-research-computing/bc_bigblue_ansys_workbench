@@ -19,8 +19,9 @@ attributes:
       Number of cores on node type (4 GB per core unless requesting whole
       node). Leave blank if requesting full node.
     min: 1
-    max: 48
+    max: 48  # This will be updated by form.js
     step: 1
+    id: num_cores
   bc_num_slots:
     help: |
       Currently only Fluent and CFX have been tested to support multiple nodes.
@@ -58,5 +59,6 @@ attributes:
     label: "ANSYS Workbench version"
     help: "This defines the version of ANSYS you want to load."
     options:
+      - [ "19.1",   "ansys/19.1"   ]
       - [ "18.1",   "ansys/18.1"   ]
       - [ "17.2",   "ansys/17.2"   ]
