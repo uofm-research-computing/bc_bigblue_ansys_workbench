@@ -1,11 +1,13 @@
 <%-
   num_nodes = bc_num_slots.blank? ? 1 : bc_num_slots.to_i
-  num_cpus_per_node = (node_type == ':hugemem') ? 48 : 28
+  num_cpus_per_node_available = (node_type == ':hugemem') ? 48 : 28
   num_cpus_for_free = 4
-  num_cpus_per_node_requested = [num_cores.to_i, num_cpus_per_node].min
+  num_cpus_per_node_requested = [num_cores.to_i, num_cpus_per_node_available].min
   num_cpus_available = (num_nodes * num_cpus_per_node_requested) - num_cpus_for_free
   ansys_par_request = (reserve_parallel_licenses.to_i == 1) ? "\%ansyspar+#{num_cpus_available}" : ""
   software_request = "ansys+1" + ansys_par_request
+
+  ppn = (num_cpus_per_node_requested > 0) ? ":ppn=#{num_cpus_per_node_requested}" : ""
 -%>
 ---
 batch_connect:
@@ -13,5 +15,5 @@ batch_connect:
 script:
   native:
     resources:
-      nodes: "<%= num_nodes %>:ppn=<%= num_cpus_per_node_requested %><%= node_type %>"
+      nodes: "<%= num_nodes %><%= ppn %><%= node_type %>"
       software: "<%= software_request %>"
