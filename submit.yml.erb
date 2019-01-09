@@ -1,8 +1,13 @@
 <%-
   num_nodes = bc_num_slots.blank? ? 1 : bc_num_slots.to_i
-  num_cpus_per_node_available = (node_type == ':hugemem') ? 48 : 28
   num_cpus_for_free = 4
-  num_cpus_per_node_requested = [num_cores.to_i, num_cpus_per_node_available].min
+
+  if node_type == ':hugemem'
+    num_cpus_per_node_requested = 48
+  else
+    num_cpus_per_node_requested = [num_cores.to_i, 28].min
+  end
+
   num_cpus_available = (num_nodes * num_cpus_per_node_requested) - num_cpus_for_free
   ansys_par_request = (reserve_parallel_licenses.to_i == 1) ? "\%ansyspar+#{num_cpus_available}" : ""
   software_request = "ansys+1" + ansys_par_request
