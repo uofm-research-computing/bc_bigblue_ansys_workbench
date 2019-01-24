@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.7.3] - 2019-01-24
+### Fixed
+- Fixed bug when entering a blank PPN request
+
 ## [0.7.2] - 2019-01-09
 ### Changed
 - Requesting a hugemem node always requests the entire node

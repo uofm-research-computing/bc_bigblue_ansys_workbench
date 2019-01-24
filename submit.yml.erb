@@ -5,7 +5,8 @@
   if node_type == ':hugemem'
     num_cpus_per_node_requested = 48
   else
-    num_cpus_per_node_requested = [num_cores.to_i, 28].min
+    num_cores = num_cores.blank? ? 28 : num_cores.to_i
+    num_cpus_per_node_requested = [num_cores, 28].min
   end
 
   num_cpus_available = (num_nodes * num_cpus_per_node_requested) - num_cpus_for_free
