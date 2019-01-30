@@ -30,6 +30,13 @@ cd "${HOME}"
 # Load the required environment
 module load <%= context.version %>
 
+<% if context.user_license_type == 'commercial' %>
+# Attempting to use a 3rd party license server
+export ANS_FLEXLM_DISABLE_DEFLICPATH=1
+export ANSYSLI_SERVERS=<%= context.com_license_server %>
+export ANSYSLMD_LICENSE_FILE=<%= context.com_license_file %>
+<% end %>
+
 # Another ANSYS job with the same job name (file) is already running in this
 # directory or the file.lock file has not been deleted from an abnormally
 # terminated ANSYS run.  To disable this check, set the ANSYS_LOCK environment

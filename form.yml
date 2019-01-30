@@ -10,6 +10,9 @@ form:
   - node_type
   - bc_vnc_resolution
   - bc_email_on_started
+  - user_license_type
+  - com_license_server
+  - com_license_file
 attributes:
   num_cores:
     widget: "number_field"
@@ -61,3 +64,18 @@ attributes:
       - [ "19.1",   "ansys/19.1"   ]
       - [ "18.1",   "ansys/18.1"   ]
       - [ "17.2",   "ansys/17.2"   ]
+  user_license_type:
+    widget: select
+    label: "What type of user are you?"
+    help: "Commercial users are required to provide their own license information"
+    options:
+      - ["Academic", "academic"]
+      - ["Commercial", "commercial"]
+  com_license_server:
+    label: "Commercial License Server"
+    help: "Academic users should leave this field blank"
+    placeholder: host@ip
+  com_license_file:
+    label: "Commercial License File"
+    help: "Academic users should leave this field blank"
+    placeholder: host@ip
