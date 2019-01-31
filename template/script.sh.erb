@@ -30,11 +30,11 @@ cd "${HOME}"
 # Load the required environment
 module load <%= context.version %>
 
-<% if context.user_license_type == 'commercial' %>
+<% if context.user_license_provider == 'external' %>
 # Attempting to use a 3rd party license server
 export ANS_FLEXLM_DISABLE_DEFLICPATH=1
-export ANSYSLI_SERVERS=<%= context.com_license_server %>
-export ANSYSLMD_LICENSE_FILE=<%= context.com_license_file %>
+export ANSYSLI_SERVERS=<%= context.extern_license_server %>
+export ANSYSLMD_LICENSE_FILE=<%= context.extern_license_file %>
 <% end %>
 
 # Another ANSYS job with the same job name (file) is already running in this

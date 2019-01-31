@@ -66,15 +66,15 @@ function toggle_visibilty_of_form_group(form_id, show) {
  * Commercial: visible
  */
 function toggle_license_field_visibility() {
-  let user_license_type = $("#batch_connect_session_context_user_license_type");
+  let user_license_provider = $("#batch_connect_session_context_user_license_provider");
 
   toggle_visibilty_of_form_group(
-    '#batch_connect_session_context_com_license_server',
-    user_license_type.val() === 'commercial'
+    '#batch_connect_session_context_extern_license_server',
+    user_license_provider.val() === 'external'
   );
   toggle_visibilty_of_form_group(
-    '#batch_connect_session_context_com_license_file',
-    user_license_type.val() === 'commercial'
+    '#batch_connect_session_context_extern_license_file',
+    user_license_provider.val() === 'external'
   );
 }
 
@@ -89,11 +89,14 @@ function set_node_type_change_handler() {
 /**
  * Sets the change handler for the user_is_commercial_user select.
  */
-function set_user_is_commercial_user_change_handler() {
-  let user_license_type = $("#batch_connect_session_context_user_license_type");
-  user_license_type.change(toggle_license_field_visibility);
+function set_user_license_provider_change_handler() {
+  let user_license_provider = $("#batch_connect_session_context_user_license_provider");
+  user_license_provider.change(toggle_license_field_visibility);
 }
 
+/**
+ * Install event handlers
+ */
 $(document).ready(function() {
   // Set the max value to be what was set in the last session
   fix_num_cores();
@@ -101,5 +104,5 @@ $(document).ready(function() {
   toggle_license_field_visibility();
 
   set_node_type_change_handler();
-  set_user_is_commercial_user_change_handler();
+  set_user_license_provider_change_handler();
 });
