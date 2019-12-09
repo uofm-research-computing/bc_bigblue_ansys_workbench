@@ -53,6 +53,8 @@ export CUE_GRAPHICS="mesa"
 <%- end -%>
 
 # Fix bug when running Intel MPI code on OSC
+# May no longer be necessary? intelmpi seemed to be specific to ANSYS ~15
+# TODO check if this is still necessary
 export I_MPI_PMI_EXTENSIONS=on
 
 # Add custom "OSC MPI" as a start method
@@ -92,7 +94,7 @@ export PATH="<%= session.staged_root.join("bin") %>:${PATH}"
 
 # Launch ANSYS Workbench
 <%- if gpu -%>
-module load intel/16.0.3 virtualgl
+module load intel/16.0.3 virtualgl/2.6.3
 module list
 set -x
 vglrun runwb2
