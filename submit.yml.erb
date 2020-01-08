@@ -9,8 +9,9 @@
     num_cpus_per_node_requested = [num_cpus_per_node_requested, 28].min
   end
 
-  num_cpus_available = (num_nodes * num_cpus_per_node_requested) - num_cpus_for_free
-  ansys_par_request = (reserve_parallel_licenses.to_i == 1) ? "\%ansyspar+#{num_cpus_available}" : ""
+  num_cpus_needing_license = (num_nodes * num_cpus_per_node_requested) - num_cpus_for_free
+  # Do not attempt to reserve negative CPUs
+  ansys_par_request = (reserve_parallel_licenses.to_i == 1 && num_cpus_needing_license > 0) ? "\%ansyspar+#{num_cpus_needing_license}" : ""
   software_request = "ansys+1" + ansys_par_request
 
   ppn = (num_cpus_per_node_requested > 0) ? ":ppn=#{num_cpus_per_node_requested}" : ""
