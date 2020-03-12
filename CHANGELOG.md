@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10.1] - 2020-03-13
+### Fixed
+- CI now uses clone strategy instead of fetch for a more stable checkout performance
+
 ## [0.10.0] - 2020-03-13
 ### Added
 - Added ANSYS 2020R1 and 19.2
