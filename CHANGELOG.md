@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.10.0] - 2020-03-13
+### Added
+- Added ANSYS 2020R1 and 19.2
+
 ## [0.9.1] - 2020-01-08
 ### Fixed
 - Fixed bug where reserving parallel licenses could block submission [#17](https://github.com/OSC/bc_osc_ansys_workbench/issues/17)
