@@ -33,7 +33,7 @@
   if torque_cluster
     licenses = need_parallel_licenses ? "ansys+1%ansyspar+#{licensed_cpus}" : "ansys+1"
   else
-    licenses = need_parallel_licenses ? "ansys@license5:1,ansyspar@license5:#{licensed_cpus}" : "ansys@license5:1"
+    licenses = need_parallel_licenses ? "ansys@osc:1,ansyspar@osc:#{licensed_cpus}" : "ansys@osc:1"
   end
 
   slurm_args += [ "--licenses", licenses ]
