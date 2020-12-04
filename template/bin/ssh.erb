@@ -40,5 +40,5 @@ echo "Submitted Arguments = ${HOST} ${*}" >> <%= session.staged_root.join("ssh.l
 <%- if torque_cluster -%>
 exec pbsdsh -o -h "${HOST}" sh -c "${*}"
 <% else %>
-exec srun -w "${HOST}" --ntasks 1 --nodes 1 sh -c "${*}"
+exec srun -w "${HOST}" --ntasks 1 --nodes 1 /bin/bash -c "${*}"
 <% end %>
