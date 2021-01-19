@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.12.0] - 2021-01-19
+### Changed
+- [28](https://github.com/OSC/bc_osc_ansys_workbench/pull/28) changed the bc_account text field
+  to account which is a select widget with only valid groups as options.
+
 ## [0.11.2] - 2020-12-04
 ### Fixed
 - Fixed slurm parallel Fluent in [27](https://github.com/OSC/bc_osc_ansys_workbench/pull/27)
@@ -142,7 +147,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release!
 
-[Unreleased]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.11.2...HEAD
+[Unreleased]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.11.2...v0.12.0
 [0.11.2]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.11.1...v0.11.2
 [0.11.1]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.10.1...v0.11.0
