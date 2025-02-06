@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+env_var = ENV['SLURM_JOB_NODELIST'].to_s
+procs = ENV['SLURM_JOB_CPUS_PER_NODE'].to_i
+
+nodes = `scontrol show hostnames #{env_var}`.split
+
+list = nodes.map do |node|
+  procs.times.map { |_| node }
+end
+
+puts list
