@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-<%- gpu = context.node_type.include?("vis") -%>
-
 # Clean the environment
 module purge
 
@@ -23,9 +21,9 @@ set -x
 source /etc/os-release
 
 if [[ "$VERSION_ID" < "9" ]]; then
-  xfwm4 --compositor=off --daemon --sm-client-disable
+  xfwm4 --compositor=off --sm-client-disable &
   xsetroot -solid "#D3D3D3"
-  xfsettingsd --sm-client-disable
+  xfsettingsd --sm-client-disable &
   xfce4-panel --sm-client-disable &
 else
   xfwm4 --compositor=off --sm-client-disable &
@@ -39,7 +37,7 @@ fi
 #
 
 # Load the required environment
-module load xalt/latest <%= context.version %>
+module load <%= context.modules %>
 
 <% if context.user_license_provider == 'external' %>
 # Attempting to use a 3rd party license server
@@ -58,10 +56,8 @@ export ANSYS_LOCK="OFF"
 # CFX Related Options
 #
 
-<%- unless gpu -%>
 # Disable hardware rendering mode
 export CUE_GRAPHICS="mesa"
-<%- end -%>
 
 # Fix bug when running Intel MPI code on OSC
 # May no longer be necessary? intelmpi seemed to be specific to ANSYS ~15
@@ -113,13 +109,11 @@ node_parser > $NODEFILE
 export -n I_MPI_HYDRA_BOOTSTRAP_EXEC_EXTRA_ARGS
 
 # Launch ANSYS Workbench
-<%- if gpu -%>
-module load virtualgl
-module list
-set -x
-vglrun runwb2
-<%- else -%>
+#module load virtualgl
+#module list
+#set -x
+#vglrun runwb2
+
 module list
 set -x
 runwb2
-<%- end -%>

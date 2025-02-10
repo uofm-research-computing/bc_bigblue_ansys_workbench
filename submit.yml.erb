@@ -1,37 +1,12 @@
 <%-
 
-  err_msg = "You are not a member of the ansysflu group. Please email oschelp@osc.edu to request access to ANSYS Workbench, or use an external license."
-  raise(StandardError, err_msg) unless CurrentUser.group_names.include?('ansysflu') || user_license_provider == 'external'
-
-  nodes = bc_num_slots.blank? ? 1 : bc_num_slots.to_i
-  num_cpus_for_free = 4
-  ppn = if num_cores.blank?
-          28
-        elsif nodes > 1
-          # slurm cluster is going to get the whole node if requesting more than 1 node
-          # so be sure you request 28 cores for the license calculations below
-          28
-        else
-          num_cores.to_i
-        end
-
-  case node_type
-  when "hugemem"
-    partition = bc_num_slots.to_i > 1 ? "hugemem-parallel" : "hugemem"
-    slurm_args = [ "--nodes", "#{nodes}", "--ntasks-per-node", "#{ppn}", "--partition", partition ]
-  when "vis"
-    slurm_args = ["--nodes", "#{nodes}", "--ntasks-per-node", "#{ppn}", "--gpus-per-node", "1", "--gres", "vis" ]
-  else
-    slurm_args = ["--nodes", "#{nodes}", "--ntasks-per-node", "#{ppn}" ]
+  partition = partitions_list == "any" ? "icomputeq,igpuq,ibigmemq,acomputeq,agpuq,abigmemq" : "#{partitions_list}"
+  slurm_args = ["--nodes", "#{bc_num_slots}", "--cpus-per-task", "#{num_cores}", "--mem", "#{alloc_mem}G", "--partition", partition ]
+  if ngpus != "0"
+    slurm_args.append( "--gres=gpu:#{ngpus}" )
   end
+  
 
-  licensed_cpus = (nodes * ppn) - num_cpus_for_free
-  # Do not attempt to reserve negative licenses
-  need_parallel_licenses = reserve_parallel_licenses.to_i == 1 && licensed_cpus > 0
-
-  licenses = need_parallel_licenses ? "ansys@osc:1,ansyspar@osc:#{licensed_cpus}" : "ansys@osc:1"
-
-  slurm_args += [ "--licenses", licenses ]
 %>
 ---
 batch_connect:
